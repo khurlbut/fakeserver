@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestHttpTestWrapper(t *testing.T) {
+func TestMockHttp(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "HttpTestWrapper Suite")
+	RunSpecs(t, "Package 'github.com/khurlbut/mockhttp'")
 }
