@@ -1,4 +1,4 @@
-package fakeserver_test
+package mockhttp_test
 
 import (
 	"testing"
