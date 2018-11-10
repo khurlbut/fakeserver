@@ -1,4 +1,4 @@
-package http_test_wrapper
+package fakeserver
 
 import "net/http"
 

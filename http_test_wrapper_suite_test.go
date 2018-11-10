@@ -1,4 +1,4 @@
-package http_test_wrapper_test
+package fakeserver_test
 
 import (
 	"testing"

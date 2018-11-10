@@ -1,10 +1,10 @@
-package http_test_wrapper_test
+package fakeserver_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
-	. "kdh.com/http_test_wrapper"
+	. "github.com/khurlbut/fakeserver"
 )
 
 var _ = Describe("Response Tests", func() {

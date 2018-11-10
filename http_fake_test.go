@@ -1,11 +1,11 @@
-package http_test_wrapper_test
+package fakeserver_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	. "github.com/khurlbut/fakeserver"
 	"io/ioutil"
-	. "kdh.com/http_test_wrapper"
 	"net/http"
 )
 
@@ -46,7 +46,7 @@ var _ = Describe("HTTP Fake Tests", func() {
 	 *
 	 * URL is: http://127.0.0.1:\d{5}/path/to/page?param1=value1
 	 */
-	FIt("should resolve the full URL to the fake server for a given path", func() {
+	It("should resolve the full URL to the fake server for a given path", func() {
 		resolvedURL := fake.ResolveURL("%s?%s=%s", "/path/to/page", "param1", "value1")
 		Ω(resolvedURL).Should(MatchRegexp("http:\\/\\/127\\.0\\.0\\.1:8181\\/path\\/to\\/page\\?param1=value1"))
 		// Ω(resolvedURL).Should(MatchRegexp("http:\\/\\/127\\.0\\.0\\.1:\\d{5}\\/path\\/to\\/page\\?param1=value1"))
@@ -58,7 +58,7 @@ var _ = Describe("HTTP Fake Tests", func() {
 		Ω(len(fake.RequestHandlers)).Should(BeZero())
 	})
 
-	FIt("should return the expected response on GET", func() {
+	It("should return the expected response on GET", func() {
 		fake.NewHandler().Get("/users").Reply(200).BodyString(`[{"username": "dreamer"}]`)
 
 		res, _ := http.Get(fake.ResolveURL("/users"))

@@ -1,4 +1,4 @@
-package http_test_wrapper
+package fakeserver
 
 import (
 	"fmt"
@@ -48,7 +48,7 @@ func (f *HTTPFake) Close() {
 }
 
 func myLocalListener() net.Listener {
-	l, err := net.Listen("tcp", "0.0.0.0:8181")
+	l, err := net.Listen("tcp", "127.0.0.1:8181")
 	if err != nil {
 		fmt.Println("--- TCP FAILED! Using TCP6! ---")
 		if l, err = net.Listen("tcp6", "[::1]:0"); err != nil {

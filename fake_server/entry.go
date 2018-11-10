@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	httpTestWrapper "kdh.com/http_test_wrapper"
+	httpTestWrapper "gihub.com/khurlbut/fakeserver"
 	"net"
 	"os"
 	"os/signal"
