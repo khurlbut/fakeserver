@@ -27,7 +27,7 @@ func main() {
 	server.NewHandler().Get("/oldpage").Reply(302).BodyString("Redirect")
 
 	fmt.Printf("resolveHostIp(): %s\n", resolveHostIp())
-	server.Start()
+	server.Start(resolveHostIp(), "8181")
 	fmt.Printf("Server Running at: %s\n", server.Server.URL)
 
 	// Don't exit
