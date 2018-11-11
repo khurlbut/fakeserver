@@ -28,7 +28,7 @@ func main() {
 
 	fmt.Printf("resolveHostIp(): %s\n", resolveHostIp())
 	server.Start(resolveHostIp(), "8181")
-	fmt.Printf("Server Running at: %s\n", server.Server.URL)
+	fmt.Printf("Server Running at: %s\n", server.URL())
 
 	// Don't exit
 	for {
