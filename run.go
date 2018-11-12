@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/khurlbut/fakehttp"
+	conf "github.com/khurlbut/fakeserverconf"
 	// "github.com/tkanos/gonfig"
 	"net"
 	"os"
@@ -17,7 +19,7 @@ type Configuration struct {
 }
 
 func main() {
-	fmt.Println("Version 0.1.3")
+	fmt.Println("Version 0.1.4")
 	server := fakehttp.Server()
 
 	// Set up capture of <Ctrl-C> for server shutdown
@@ -29,32 +31,10 @@ func main() {
 		os.Exit(1)
 	}()
 
-	config := []Configuration{
-		Configuration{
-			path:   "/",
-			body:   "Content Service Upstream (served from JSON)",
-			status: 200,
-		},
-		Configuration{
-			path:   "/browse",
-			body:   "Browse at Content Service Upstream (served from JSON)",
-			status: 200,
-		},
-		Configuration{
-			path:   "/browse/catalog",
-			body:   "Browse Catalog at Content Service Upstream (served from JSON)",
-			status: 200,
-		},
-
-		Configuration{
-			path:   "/oldpage",
-			body:   "Redirect (served from JSON)",
-			status: 302,
-		},
-	}
+	config := conf.ReadJSONFile("./config.json")
 
 	for _, c := range config {
-		server.NewHandler().Get(c.path).Reply(c.status).BodyString(c.body)
+		server.NewHandler().Get(c.Path).Reply(c.Status).BodyString(c.Body)
 	}
 
 	fmt.Printf("resolveHostIp(): %s\n", resolveHostIp())
