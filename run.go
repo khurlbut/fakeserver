@@ -1,11 +1,11 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-
 	"github.com/khurlbut/fakehttp"
-	conf "github.com/khurlbut/fakeserverconf"
-	// "github.com/tkanos/gonfig"
+	"github.com/khurlbut/fakeserverconf"
+	"log"
 	"net"
 	"os"
 	"os/signal"
@@ -19,25 +19,22 @@ type Configuration struct {
 }
 
 func main() {
-	fmt.Println("Version 0.1.4")
 	server := fakehttp.Server()
 
-	// Set up capture of <Ctrl-C> for server shutdown
-	c := make(chan os.Signal)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		<-c
-		server.Close()
-		os.Exit(1)
-	}()
+	listenForKillSig(server)
 
-	config := conf.ReadJSONFile("./config.json")
+	config := fakeserverconf.DefaultConfig()
+	configfile := flag.String("config-file", "", "JSON configuration file")
+	flag.Parse()
+
+	if len(*configfile) > 0 {
+		config = fakeserverconf.ReadJSONFile(*configfile)
+	}
 
 	for _, c := range config {
 		server.NewHandler().Get(c.Path).Reply(c.Status).BodyString(c.Body)
 	}
 
-	fmt.Printf("resolveHostIp(): %s\n", resolveHostIp())
 	server.Start(resolveHostIp(), "8181")
 	fmt.Printf("Server Running at: %s\n", server.URL())
 
@@ -51,7 +48,7 @@ func resolveHostIp() string {
 	netInterfaceAddresses, err := net.InterfaceAddrs()
 
 	if err != nil {
-		return ""
+		log.Fatal(err)
 	}
 
 	for _, netInterfaceAddress := range netInterfaceAddresses {
@@ -62,5 +59,17 @@ func resolveHostIp() string {
 			return ip
 		}
 	}
+
 	return ""
+}
+
+func listenForKillSig(server *fakehttp.HTTPFake) {
+	// Set up capture of <Ctrl-C> for server shutdown
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-c
+		server.Close()
+		os.Exit(1)
+	}()
 }
