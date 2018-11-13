@@ -19,12 +19,11 @@ func main() {
 	shutdownServerOnCntrlC(server)
 
 	config := readConfiguration()
-
 	for _, p := range config.Pages {
 		server.NewHandler().Get(p.Path).Reply(p.Status).BodyString(p.Body)
 	}
 
-	server.Start(resolveHostIp(), config.Port)
+	server.Start(config.IPAddress, config.Port)
 
 	log.Print("Server Running at --> " + server.URL())
 	for {
@@ -38,6 +37,10 @@ func readConfiguration() fakeserverconf.Configuration {
 
 	if len(*configfile) > 0 {
 		config = fakeserverconf.ReadJSONFile(*configfile)
+	}
+
+	if len(config.IPAddress) == 0 || config.IPAddress == "host" {
+		config.IPAddress = resolveHostIp()
 	}
 
 	if len(config.Port) == 0 {
