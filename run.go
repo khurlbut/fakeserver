@@ -18,8 +18,8 @@ func main() {
 
 	config := readConfiguration()
 
-	for _, c := range config {
-		server.NewHandler().Get(c.Path).Reply(c.Status).BodyString(c.Body)
+	for _, p := range config.Pages {
+		server.NewHandler().Get(p.Path).Reply(p.Status).BodyString(p.Body)
 	}
 
 	server.Start(resolveHostIp(), "8181")
