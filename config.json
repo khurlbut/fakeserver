@@ -1,5 +1,7 @@
-[
-	{"Path":"/","Status": 200,"Body":"Root"},
-	{"Path":"/body1","Status": 200,"Body":"Body 1"},
-	{"Path":"/body2","Status": 200,"Body":"Body 2"}
-]
+{
+	"Pages": [
+		{"Path":"/","Status": 200,"Body":"Root"},
+		{"Path":"/body1","Status": 200,"Body":"Body 1"},
+		{"Path":"/body2","Status": 200,"Body":"Body 2"}
+	]
+}
