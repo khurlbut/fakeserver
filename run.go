@@ -21,7 +21,7 @@ type Configuration struct {
 func main() {
 	server := fakehttp.Server()
 
-	listenForKillSig(server)
+	shutdownServerOnCntrlC(server)
 
 	config := fakeserverconf.DefaultConfig()
 	configfile := flag.String("config-file", "", "JSON configuration file")
@@ -63,8 +63,7 @@ func resolveHostIp() string {
 	return ""
 }
 
-func listenForKillSig(server *fakehttp.HTTPFake) {
-	// Set up capture of <Ctrl-C> for server shutdown
+func shutdownServerOnCntrlC(server *fakehttp.HTTPFake) {
 	c := make(chan os.Signal)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
