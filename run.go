@@ -23,13 +23,7 @@ func main() {
 
 	shutdownServerOnCntrlC(server)
 
-	config := fakeserverconf.DefaultConfig()
-	configfile := flag.String("config-file", "", "JSON configuration file")
-	flag.Parse()
-
-	if len(*configfile) > 0 {
-		config = fakeserverconf.ReadJSONFile(*configfile)
-	}
+	config := readConfiguration()
 
 	for _, c := range config {
 		server.NewHandler().Get(c.Path).Reply(c.Status).BodyString(c.Body)
@@ -41,6 +35,17 @@ func main() {
 	// Don't exit
 	for {
 	}
+}
+
+func readConfiguration() fakeserverconf.Configuration {
+	config := fakeserverconf.DefaultConfig()
+	configfile := flag.String("config-file", "", "JSON configuration file")
+	flag.Parse()
+
+	if len(*configfile) > 0 {
+		config = fakeserverconf.ReadJSONFile(*configfile)
+	}
+	return config
 }
 
 func resolveHostIp() string {
