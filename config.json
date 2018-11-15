@@ -1,5 +1,5 @@
 {
-	"IPAddress": "host",
+	"IPAddress": "127.0.0.1",
 	"Port": "8000",
 	"Pages": [
 		{"Path":"/","Status": 200,"Body":"Root"},
