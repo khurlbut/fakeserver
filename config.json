@@ -1,6 +1,6 @@
 {
-	"IPAddress": "127.0.0.1",
-	"Port": "8000",
+	"IPAddress": "host",
+	"Port": "8181",
 	"Pages": [
 		{"Path":"/","Status": 200,"Body":"Root"},
 		{"Path":"/body1","Status": 200,"Body":"Body 1"},
