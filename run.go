@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 )
 
@@ -20,7 +21,14 @@ func main() {
 
 	config := readConfiguration()
 	for _, p := range config.Pages {
-		server.NewHandler().Get(p.Path).Reply(p.Status).BodyString(p.Body)
+		rh := server.NewHandler()
+		rh.Get(p.Path).Reply(p.Status).BodyString(p.Body)
+		for _, h := range p.Headers {
+			s := strings.Split(h, ":")
+			k, v := s[0], s[1]
+			rh.AddHeader(k, v)
+		}
+		rh.CustomHandle = fakehttp.RequireHeadersResponder
 	}
 
 	server.Start(config.IPAddress, config.Port)
