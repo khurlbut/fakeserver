@@ -47,7 +47,7 @@ func readConfiguration() fakeserverconf.Configuration {
 		config = fakeserverconf.ReadJSONFile(*configfile)
 	}
 
-	if len(config.IPAddress) == 0 || config.IPAddress == "host" {
+	if config.IPAddress == "host" {
 		config.IPAddress = resolveHostIp()
 	}
 
