@@ -13,7 +13,7 @@ import (
 	"github.com/khurlbut/fakeserverconf"
 )
 
-const DEFAULT_PORT = "8181"
+const defaultPort = "8181"
 
 func main() {
 	server := fakehttp.Server()
@@ -53,7 +53,7 @@ func readConfiguration() fakeserverconf.Configuration {
 	}
 
 	if len(config.Port) == 0 {
-		config.Port = DEFAULT_PORT
+		config.Port = defaultPort
 	}
 
 	return config
