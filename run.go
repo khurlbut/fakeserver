@@ -2,14 +2,15 @@ package main
 
 import (
 	"flag"
-	"github.com/khurlbut/fakehttp"
-	"github.com/khurlbut/fakeserverconf"
 	"log"
 	"net"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"github.com/khurlbut/fakehttp"
+	"github.com/khurlbut/fakeserverconf"
 )
 
 const DEFAULT_PORT = "8181"
@@ -48,7 +49,7 @@ func readConfiguration() fakeserverconf.Configuration {
 	}
 
 	if config.IPAddress == "host" {
-		config.IPAddress = resolveHostIp()
+		config.IPAddress = resolveHostIP()
 	}
 
 	if len(config.Port) == 0 {
@@ -58,7 +59,7 @@ func readConfiguration() fakeserverconf.Configuration {
 	return config
 }
 
-func resolveHostIp() string {
+func resolveHostIP() string {
 
 	netInterfaceAddresses, err := net.InterfaceAddrs()
 
@@ -67,9 +68,9 @@ func resolveHostIp() string {
 	}
 
 	for _, netInterfaceAddress := range netInterfaceAddresses {
-		networkIp, ok := netInterfaceAddress.(*net.IPNet)
-		if ok && !networkIp.IP.IsLoopback() && networkIp.IP.To4() != nil {
-			ip := networkIp.IP.String()
+		networkIP, ok := netInterfaceAddress.(*net.IPNet)
+		if ok && !networkIP.IP.IsLoopback() && networkIP.IP.To4() != nil {
+			ip := networkIP.String()
 			return ip
 		}
 	}
