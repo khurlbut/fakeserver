@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"strings"
@@ -28,6 +29,10 @@ func main() {
 			s := strings.Split(h, ":")
 			k, v := s[0], s[1]
 			rh.AddHeader(k, v)
+		}
+		for _, c := range p.Cookies {
+			s := strings.Split(c, ":")
+			rh.AddCookie(&http.Cookie{Name: s[0], Value: s[1]})
 		}
 		rh.CustomHandle = fakehttp.RequireHeadersResponder
 	}
