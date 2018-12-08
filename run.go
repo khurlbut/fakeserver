@@ -34,6 +34,9 @@ func main() {
 			s := strings.Split(c, ":")
 			rh.AddCookie(&http.Cookie{Name: s[0], Value: s[1]})
 		}
+		for _, k := range p.InjectionKeys {
+			rh.AddInjectionKey(k)
+		}
 		rh.CustomHandle = fakehttp.RequireHeadersResponder
 	}
 

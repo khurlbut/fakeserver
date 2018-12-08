@@ -1,10 +1,11 @@
 {
-	"IPAddress": "host",
+	"IPAddress": "127.0.0.1",
 	"Port": "8181",
 	"Pages": [
 		{"Path":"/","Status": 200,"Body":"Root"},
 		{"Path":"/body1","Status": 200,"Body":"Body 1"},
 		{"Path":"/body2","Status": 200,"Body":"Body 2"},
-		{"Path":"/headers","Status": 200,"Body":"Headers Found!", "Headers":["Key1:Val1"]}
+		{"Path":"/headers","Status": 200,"Body":"Headers Found!", "Headers":["Key1:Val1"]},
+		{"Path":"/useridnumber","Status": 200,"Body":"Hello, %s!", "InjectionKeys":["path"]}
 	]
 }
