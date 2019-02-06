@@ -37,7 +37,10 @@ func main() {
 		for _, k := range p.InjectionKeys {
 			rh.AddInjectionKey(k)
 		}
-		rh.CustomHandle = fakehttp.RequireHeadersResponder
+		for _, ep := range p.ServiceEndpoints {
+			rh.AddServiceEndpoint(ep)
+		}
+		rh.CustomHandle = fakehttp.SophisticatedResponder
 	}
 
 	server.Start(config.IPAddress, config.Port)
