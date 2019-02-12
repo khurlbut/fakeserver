@@ -21,9 +21,9 @@ func main() {
 
 	shutdownServerOnCntrlC(server)
 
-	config := readConfiguration()
+	config, renderHTML := readConfiguration()
 	for _, p := range config.Pages {
-		rh := server.NewHandler()
+		rh := server.NewHandler(renderHTML)
 		rh.Get(p.Path).Reply(p.Status).BodyString(p.Body)
 		for _, h := range p.Headers {
 			s := strings.Split(h, ":")
@@ -50,8 +50,9 @@ func main() {
 	}
 }
 
-func readConfiguration() fakeserverconf.Configuration {
+func readConfiguration() (fakeserverconf.Configuration, bool) {
 	config := fakeserverconf.DefaultConfig()
+	renderHTML := flag.Bool("html", false, "Render output as HTML")
 	configfile := flag.String("config-file", "", "JSON configuration file")
 	flag.Parse()
 
@@ -67,7 +68,7 @@ func readConfiguration() fakeserverconf.Configuration {
 		config.Port = defaultPort
 	}
 
-	return config
+	return config, *renderHTML
 }
 
 func resolveHostIP() string {
